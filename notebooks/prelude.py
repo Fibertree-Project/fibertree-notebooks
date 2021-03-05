@@ -21,6 +21,8 @@ from IPython.display import Image
 from IPython.display import HTML
 from IPython.display import Javascript
 
+from tqdm.notebook import tqdm, trange
+
 #
 # Math imports
 #
