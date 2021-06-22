@@ -60,5 +60,12 @@ coverage.xml
 # Rope
 .ropeproject
 
+# Application specific ignores
+
 # TensorCanvas tmp file
-tmp.mp4
+notebooks/*/tmp/*.mp4
+
+
+# Keep .gitkeep
+
+!/**/.gitkeep
