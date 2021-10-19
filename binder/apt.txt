@@ -1,0 +1,7 @@
+apt-utils
+locales
+curl
+tzdata
+libgl1
+fonts-freefont-ttf
+ttf-dejavu-core

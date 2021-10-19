@@ -1,0 +1,10 @@
+pyyaml
+matplotlib
+networkx
+opencv-python
+Pillow
+numpy
+ipywidgets
+tqdm
+pdoc3
+git+https://github.com/Fibertree-Project/fibertree

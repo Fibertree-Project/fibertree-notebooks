@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pdoc3 --html --output /home/${NB_USER}/doc fibertree.core
+pdoc3 --html --output /home/${NB_USER}/doc fibertree.graphics
