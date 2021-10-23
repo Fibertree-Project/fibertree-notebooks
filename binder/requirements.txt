@@ -7,4 +7,4 @@ numpy
 ipywidgets
 tqdm
 pdoc3
-git+https://github.com/Fibertree-Project/fibertree
+git+https://github.com/Fibertree-Project/fibertree@v21.10
