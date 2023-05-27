@@ -61,6 +61,15 @@ repository provides a Docker container where one can run the
 fibertree notebooks without additional local installation.
 
 
+Development
+===========
+
+To clear out the outputs from modified notebooks, run the following:
+
+```console
+for i in `git diff --name-only`; do jupyter nbconvert --clear-output --inplace $i; done
+```
+
 FAQ
 ===
 
@@ -98,4 +107,5 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | b
 nvm install node
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
 ```
+
 
