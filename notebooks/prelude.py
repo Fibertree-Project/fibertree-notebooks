@@ -1,18 +1,23 @@
 """ IPython prelude code """
+
 #
-# Argument parsing imports
-# Note: to guide animation display since people often do "Run All Cells"
+# Startup...
 #
-import argparse
+print("Running prelude")
 
 #
 # System imports
 #
 import os
+import sys
+import requests
 import string
 import random
 import warnings
+import argparse
+
 from functools import *
+from pathlib import Path
 
 #
 # Import display classes/utilities
@@ -28,18 +33,16 @@ from tqdm.notebook import tqdm, trange
 # Math imports
 #
 import math
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import imshow
+from matplotlib import rc
 
-try:
-    import numpy as np
-except ImportError:
-    print("Library numpy not available")
-
-try:
-    import matplotlib.pyplot as plt
-    from matplotlib.pyplot import imshow
-    from matplotlib import rc
-except ImportError:
-    print("Library matplotlib not available")
+#
+# Import ipywidgets
+#
+import ipywidgets as widgets
+from ipywidgets import interact, interactive, fixed, interact_manual
 
 #
 # Try to import networkx
@@ -51,23 +54,28 @@ except ImportError:
     have_networkx = False
 
 #
-# Try to import ipywidgets
-#
-have_ipywidgets = True
-try:
-    import ipywidgets as widgets
-    from ipywidgets import interact, interactive, fixed, interact_manual
-except ImportError:
-    have_ipywidgets = False
-
-#
 # Use rc to configure animation for HTML5
 #
-rc('animation', html='html5')
+rc('animation', html='jshtml')
 
 #
 # Import tensor class
 #
+import importlib
+import subprocess
+
+try:
+    module_name = 'fibertree'
+    importlib.import_module(module_name)
+    print(f"The {module_name} module is already installed and available to import")
+except ImportError:
+    print(f"The {module_name} module is not available. Installing...")
+    # Define the pip command to execute
+    pip_command = ['pip', 'install', 'git+https://github.com/Fibertree-Project/fibertree', '--quiet']
+    # Execute the pip command
+    subprocess.call(pip_command)
+
+
 from fibertree import Payload, Fiber, CoordPayload, Tensor
 from fibertree import TensorImage, TensorCanvas, CycleManager
 from fibertree import NotebookUtils, TensorMaker, TensorDisplay
@@ -77,38 +85,11 @@ from fibertree import NotebookUtils, TensorMaker, TensorDisplay
 #
 from fibertree.notebook.notebook_utils import *
 
-
 #
-# Convenience functions that just call the class methods on the FTD
-# object created below. That object holds the current styles for
-# displaying and animating the tensors.
+# Parse the arguments
 #
-def displayTensor(tensor, highlights=[], **kwargs):
-    """ displayTensor(<tensor|fiber>, hightlights=[ <point>...] ) """
+print("")
 
-    FTD.displayTensor(tensor, highlights=highlights, **kwargs)
-
-
-def displayGraph(am_s):
-    """ displayGraph(am_s) """
-
-    FTD.displayGraph(am_s)
-
-
-def createCanvas(*tensors, **kwargs):
-    """ createCanvas """
-
-    return FTD.createCanvas(*tensors, **kwargs)
-
-
-def displayCanvas(*args, **kwargs):
-    """ displayCanvas """
-
-    FTD.displayCanvas(*args, **kwargs)
-
-#
-# Parse the arguments (deprecated)
-#
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--style')
@@ -128,11 +109,78 @@ if args.logger:
 #
 # Instantiate the Tensor Display class
 #
+# This object holds the current styles for displaying and animating the tensors.
+#
 FTD = TensorDisplay(style=args.style,
                     animation=args.animation,
-                    have_ipywidgets=have_ipywidgets)
+                    have_ipywidgets=True)
 
 #
-# Create a runall button
+# Convenience functions that just call the class methods on the FTD
+# object created above. 
 #
-NB.createRunallButton()
+displayTensor = FTD.displayTensor
+displayGraph = FTD.displayGraph
+createCanvas = FTD.createCanvas
+displayCanvas = FTD.displayCanvas
+
+#
+# Create a runall button (but not in colab)
+#
+if 'COLAB_JUPYTER_IP' not in os.environ:
+    NB.createRunallButton()
+
+
+#
+# Utility function to download data for use in the notebook environment
+#
+def download_github_directory(user, repo, directory):
+    """ Download files from a github repo's directory """
+
+    api_url = f"https://api.github.com/repos/{user}/{repo}/contents/{directory}"
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        contents = response.json()
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        for item in contents:
+            download_url = item["download_url"]
+            file_name = item["name"]
+            response = requests.get(download_url)
+            if response.status_code == 200:
+                with open(os.path.join(directory, file_name), "wb") as file:
+                    file.write(response.content)
+                    print(f"Downloaded: {file_name}")
+            else:
+                print(f"Failed to download: {file_name}")
+    else:
+        print("Failed to fetch directory contents.")
+
+
+def download_data(verbose=True):
+    """ Download fibertree data (if not already available) """
+
+    for data_dir in ["../../data", "../data", "./data"]:
+        if os.path.exists(data_dir):
+            if verbose:
+                print(f"Data directory exists at: {data_dir}")
+            return Path(data_dir)
+
+    download_github_directory("Fibertree-Project",
+                              "fibertree-notebooks",
+                              "data")
+
+    data_dir = "./data"
+    print(f"Data directory downloaded to: {data_dir}")
+    return Path(data_dir)
+
+
+#
+# Create datafile name (for backwards compatibility)
+#
+def datafileName(filename):
+    """ Get fibertree data file """
+
+    data_dir = download_data(verbose=False)
+
+    return data_dir / filename
