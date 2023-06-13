@@ -1,0 +1,14 @@
+A: Tensor A
+A_COLOR: blue
+A_DENSITY: 1.0
+A_INTERVAL: 5
+A_SEED: 0
+B: Tensor B
+B_COLOR: green
+B_DENSITY: 0.7
+B_INTERVAL: 5
+B_SEED: 1
+K_SHAPE: 1
+K_SHAPE_B: This shape defined above
+M_SHAPE: 1
+N_SHAPE: 7
