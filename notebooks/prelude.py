@@ -64,6 +64,24 @@ rc('animation', html='jshtml')
 import importlib
 import subprocess
 
+#
+# Parse the arguments
+#
+print("")
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--style')
+parser.add_argument('--animation')
+parser.add_argument('--logger', default=False, action='store_true')
+parser.add_argument('--verbose', default=False, action='store_true')
+
+
+args = parser.parse_args()
+
+#
+# Import fibertree package (optionally installing it from github)
+#
 try:
     module_name = 'fibertree'
     importlib.import_module(module_name)
@@ -84,19 +102,6 @@ from fibertree import NotebookUtils, TensorMaker, TensorDisplay
 # Pick up some old utility functions (their use  should be deprecated)
 #
 from fibertree.notebook.notebook_utils import *
-
-#
-# Parse the arguments
-#
-print("")
-
-parser = argparse.ArgumentParser()
-
-parser.add_argument('--style')
-parser.add_argument('--animation')
-parser.add_argument('--logger', default=False, action='store_true')
-
-args = parser.parse_args()
 
 #
 # Instantiate the Notebook Utilities class
@@ -150,7 +155,8 @@ def download_github_directory(user, repo, directory):
             if response.status_code == 200:
                 with open(os.path.join(directory, file_name), "wb") as file:
                     file.write(response.content)
-                    print(f"Downloaded: {file_name}")
+                    if args.verbose:
+                        print(f"Downloaded: {file_name}")
             else:
                 print(f"Failed to download: {file_name}")
     else:
