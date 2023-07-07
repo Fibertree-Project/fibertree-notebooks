@@ -6,6 +6,33 @@ implemention of various sparse (and dense) computations using the
 fibertree abstraction.
 
 
+Run in Google Colab
+===================
+
+The notebooks in this repo can be run in Google Colab and will bootstrap
+an environment using [fibertree-bootstrap](https://github.com/Fibertree-Project/fibertree-bootstrap).
+
+To run them, go to the `notebooks` directory in the
+[fibertree notebooks](https://github.com/Fibertree-Project/fibertree-notebooks) repo and pick
+a notebook to open in Colab, which is very convenient using the ["Open
+in Colab"](https://chrome.google.com/webstore/search/open%20in%20colab)
+Chrome extension.
+
+Some notebooks that you can run in Colab directly are:
+
+- [startup page](https://colab.research.google.com/github/Fibertree-Project/fibertree-notebooks/blob/master/notebooks/start-here.ipynb) - a directory of notebooks
+- [fibertree demo](https://colab.research.google.com/github/Fibertree-Project/fibertree-notebooks/blob/master/notebooks/basic/fibertree.ipynb) - an initial tutorial notebook
+
+
+Run in a Docker container
+=========================
+
+The [fibertree-docker](https://github.com/Fibertree-Project/fibertree-docker)
+repository provides a Docker container with a preinstalled copy of the
+fibertree package and where one can run the fibertree notebooks
+without additional local installation.
+
+
 Manual local installation
 =========================
 
@@ -16,7 +43,7 @@ Then clone this repository and run the Jupyter notebooks:
 
 ```console
 cd fibertree-notebooks/notebooks
-jupyter notebook .
+jupyter lab .
 ```
 
 Browse in the various subdirectories and invoke
@@ -44,7 +71,7 @@ Get the fibertree notebooks
 git clone https://github.com/Fibertree-Project/fibertree-notebooks
 
 cd fibertree-notebooks/notebooks
-jupyter-notebook .
+jupyter lab .
 ```
 
 When done, deactivate the virtual environment
@@ -53,12 +80,6 @@ When done, deactivate the virtual environment
 deactivate
 ```
 
-Run in a Docker container
-=========================
-
-The [fibertree-docker](https://github.com/Fibertree-Project/fibertree-docker)
-repository provides a Docker container where one can run the
-fibertree notebooks without additional local installation.
 
 
 Development
