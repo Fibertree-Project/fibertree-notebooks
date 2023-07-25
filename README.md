@@ -21,7 +21,7 @@ Chrome extension.
 Some notebooks that you can run in Colab directly are:
 
 - [startup page](https://colab.research.google.com/github/Fibertree-Project/fibertree-notebooks/blob/master/notebooks/start-here.ipynb) - a directory of notebooks
-- [fibertree demo](https://colab.research.google.com/github/Fibertree-Project/fibertree-notebooks/blob/master/notebooks/basic/fibertree.ipynb) - an initial tutorial notebook
+- [fibertree demo](https://colab.research.google.com/github/Fibertree-Project/fibertree-notebooks/blob/master/notebooks/basic/01-01.overview.ipynb) - an initial tutorial notebook
 
 
 Run in a Docker container
@@ -47,7 +47,7 @@ jupyter lab .
 ```
 
 Browse in the various subdirectories and invoke
-a notebook. A good place to start is basic/fibertree.ipynb
+a notebook. A good place to start is basic/01-01.overview.ipynb
 
 See FAQ below for addressing some problems.
 
@@ -85,7 +85,8 @@ deactivate
 Development
 ===========
 
-To clear out the outputs from modified notebooks, run the following:
+To clear out the outputs from modified notebooks, from the root of repository
+run the following:
 
 ```console
 for i in `git diff --name-only`; do jupyter nbconvert --clear-output --inplace $i; done
